@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 # Import OpenAI client for interacting with OpenAI's API
 from openai import OpenAI
+from openai import RateLimitError, APIError, AuthenticationError, APIConnectionError
 import os
 from typing import Optional
 
@@ -32,20 +33,20 @@ class ChatRequest(BaseModel):
 # Define the main chat endpoint that handles POST requests
 @app.post("/api/chat")
 async def chat(request: ChatRequest):
-    try:
-        # Get API key from environment variable
-        api_key = os.getenv("OPENAI_API_KEY")
-        if not api_key:
-            raise HTTPException(
-                status_code=500,
-                detail="OPENAI_API_KEY environment variable is not set. Please configure it on the server."
-            )
-        
-        # Initialize OpenAI client with the API key from environment
-        client = OpenAI(api_key=api_key)
-        
-        # Create an async generator function for streaming responses
-        async def generate():
+    # Get API key from environment variable
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise HTTPException(
+            status_code=500,
+            detail="OPENAI_API_KEY environment variable is not set. Please configure it on the server."
+        )
+    
+    # Initialize OpenAI client with the API key from environment
+    client = OpenAI(api_key=api_key)
+    
+    # Create an async generator function for streaming responses
+    async def generate():
+        try:
             # Create a streaming chat completion request
             stream = client.chat.completions.create(
                 model=request.model,
@@ -60,13 +61,34 @@ async def chat(request: ChatRequest):
             for chunk in stream:
                 if chunk.choices[0].delta.content is not None:
                     yield chunk.choices[0].delta.content
+        
+        except RateLimitError as e:
+            # Handle rate limit and quota errors
+            error_msg = "OpenAI API quota exceeded. Please check your plan and billing details."
+            yield f"Error: {error_msg}\n\nDetails: {str(e)}"
+        
+        except AuthenticationError as e:
+            # Handle authentication errors
+            error_msg = "OpenAI API authentication failed. Please check your API key."
+            yield f"Error: {error_msg}\n\nDetails: {str(e)}"
+        
+        except APIConnectionError as e:
+            # Handle connection errors
+            error_msg = "Failed to connect to OpenAI API. Please check your internet connection."
+            yield f"Error: {error_msg}\n\nDetails: {str(e)}"
+        
+        except APIError as e:
+            # Handle other OpenAI API errors
+            error_msg = f"OpenAI API error: {str(e)}"
+            yield f"Error: {error_msg}"
+        
+        except Exception as e:
+            # Handle any other unexpected errors
+            error_msg = f"An unexpected error occurred: {str(e)}"
+            yield f"Error: {error_msg}"
 
-        # Return a streaming response to the client
-        return StreamingResponse(generate(), media_type="text/plain")
-    
-    except Exception as e:
-        # Handle any errors that occur during processing
-        raise HTTPException(status_code=500, detail=str(e))
+    # Return a streaming response to the client
+    return StreamingResponse(generate(), media_type="text/plain")
 
 # Define a health check endpoint to verify API status
 @app.get("/api/health")
