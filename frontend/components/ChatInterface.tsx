@@ -9,11 +9,7 @@ interface Message {
   content: string
 }
 
-interface ChatInterfaceProps {
-  apiKey: string
-}
-
-export default function ChatInterface({ apiKey }: ChatInterfaceProps) {
+export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [developerMessage, setDeveloperMessage] = useState('You are a helpful AI assistant.')
@@ -49,7 +45,6 @@ export default function ChatInterface({ apiKey }: ChatInterfaceProps) {
           developer_message: developerMessage,
           user_message: userMessage,
           model: 'gpt-4.1-mini',
-          api_key: apiKey,
         }),
         signal: abortControllerRef.current.signal,
       })

@@ -47,7 +47,7 @@ A stunning **Next.js** frontend with **glassmorphism** design that connects to y
 - **Responsive**: Works beautifully on desktop, tablet, and mobile devices
 - **TypeScript**: Fully typed for a better developer experience
 - **Tailwind CSS**: Utility-first CSS framework for rapid UI development
-- **Local Storage**: Your API key is stored locally (never sent to our servers)
+- **Secure**: API key is configured on the backend server, not in the frontend
 
 ## 🛠️ Configuration
 
@@ -73,13 +73,13 @@ By default, the frontend connects to `http://localhost:8000` for the FastAPI bac
 
 ## 🎯 How It Works
 
-1. **Enter Your API Key**: When you first load the app, you'll be prompted to enter your OpenAI API key. Don't worry - it's stored locally in your browser!
+1. **Set System Message**: Customize the AI's behavior with a developer/system message (optional, defaults to "You are a helpful AI assistant.")
 
-2. **Set System Message**: Customize the AI's behavior with a developer/system message (optional, defaults to "You are a helpful AI assistant.")
+2. **Start Chatting**: Type your message and hit Enter (or click Send). Watch as the AI streams its response in real-time!
 
-3. **Start Chatting**: Type your message and hit Enter (or click Send). Watch as the AI streams its response in real-time!
+3. **Clear Chat**: Want to start fresh? Click the "Clear Chat" button to reset the conversation.
 
-4. **Clear Chat**: Want to start fresh? Click the "Clear Chat" button to reset the conversation.
+**Note**: The OpenAI API key is configured on the backend server via the `OPENAI_API_KEY` environment variable. You don't need to enter it in the frontend!
 
 ## 🏗️ Project Structure
 
@@ -127,7 +127,7 @@ This frontend is ready to deploy on **Vercel**! Just:
 - Verify the API URL in `next.config.js` or `.env.local`
 
 **API key not working?**
-- Make sure your API key starts with `sk-`
+- Make sure the `OPENAI_API_KEY` environment variable is set on the backend server
 - Check that you have credits in your OpenAI account
 - Verify the API key is correct (you can test it in the OpenAI playground)
 

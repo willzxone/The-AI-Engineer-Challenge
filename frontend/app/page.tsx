@@ -1,34 +1,8 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
 import ChatInterface from '@/components/ChatInterface'
-import ApiKeyInput from '@/components/ApiKeyInput'
 
 export default function Home() {
-  const [apiKey, setApiKey] = useState<string>('')
-  const [isApiKeySet, setIsApiKeySet] = useState<boolean>(false)
-
-  useEffect(() => {
-    // Check if API key is stored in localStorage
-    const storedKey = localStorage.getItem('openai_api_key')
-    if (storedKey) {
-      setApiKey(storedKey)
-      setIsApiKeySet(true)
-    }
-  }, [])
-
-  const handleApiKeySubmit = (key: string) => {
-    setApiKey(key)
-    setIsApiKeySet(true)
-    localStorage.setItem('openai_api_key', key)
-  }
-
-  const handleApiKeyChange = () => {
-    setIsApiKeySet(false)
-    setApiKey('')
-    localStorage.removeItem('openai_api_key')
-  }
-
   return (
     <main className="min-h-screen bg-gradient-to-br from-purple-500 via-pink-500 to-blue-500 p-4 md:p-8">
       {/* Animated background gradient overlay */}
@@ -46,22 +20,7 @@ export default function Home() {
         </header>
 
         {/* Main content area */}
-        {!isApiKeySet ? (
-          <ApiKeyInput onSubmit={handleApiKeySubmit} />
-        ) : (
-          <div className="space-y-4">
-            <div className="glass rounded-2xl p-4 flex justify-between items-center">
-              <p className="text-white/90">API Key configured</p>
-              <button
-                onClick={handleApiKeyChange}
-                className="glass-strong px-4 py-2 rounded-xl text-white hover:bg-white/20 transition-all duration-300 text-sm font-medium"
-              >
-                Change API Key
-              </button>
-            </div>
-            <ChatInterface apiKey={apiKey} />
-          </div>
-        )}
+        <ChatInterface />
       </div>
     </main>
   )
