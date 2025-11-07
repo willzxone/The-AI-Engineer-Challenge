@@ -11,3 +11,58 @@ alwaysApply: false
 - You should use Next.js as it works best with Vercel. 
 - This frontend will ultimately be deployed on Vercel, but it should be possible to test locally. 
 - Always provide users with a way to run the created UI once you have created it.
+
+### Glassmorphism (Glass UI) Design Rules
+
+When implementing glassmorphism design, follow these principles:
+
+#### Core Visual Properties
+- **Backdrop Blur**: Always use `backdrop-filter: blur()` with values between 10px-20px for subtle blur, or 20px-40px for stronger glass effect. Typical range: 12px-16px.
+- **Transparency**: Use semi-transparent backgrounds with `rgba()` or `hsla()` colors. Opacity should be between 0.1-0.3 for light backgrounds, 0.2-0.4 for dark backgrounds.
+- **Border**: Apply subtle borders using `border: 1px solid rgba(255, 255, 255, 0.18)` for light glass, or `rgba(255, 255, 255, 0.1)` for darker variants. Use `border-radius: 12px-24px` for rounded corners.
+- **Background**: Use `background: rgba(255, 255, 255, 0.1)` for light glass or `rgba(0, 0, 0, 0.2)` for dark glass. Consider gradient backgrounds for depth.
+
+#### Layering and Depth
+- **Shadow**: Apply soft shadows with `box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37)` or similar. Use multiple shadow layers for depth.
+- **Z-index**: Ensure proper stacking context with appropriate z-index values for layered glass elements.
+- **Background Layers**: Place glass elements over colorful, gradient, or image backgrounds to maximize the glass effect visibility.
+
+#### Color Schemes
+- **Light Glass**: Use white/light backgrounds with low opacity (0.1-0.2), white borders (0.18 opacity), and dark text for contrast.
+- **Dark Glass**: Use dark backgrounds with low opacity (0.2-0.3), white borders (0.1 opacity), and light text.
+- **Colored Glass**: Apply subtle color tints using `rgba()` with brand colors at low opacity (0.1-0.15).
+
+#### Implementation Guidelines
+- **CSS Properties**: Always include `backdrop-filter: blur()`, `background: rgba()`, `border`, and `box-shadow` together.
+- **Browser Support**: Include `-webkit-backdrop-filter` for Safari compatibility alongside `backdrop-filter`.
+- **Performance**: Use `will-change: backdrop-filter` sparingly and only on animated elements to optimize performance.
+- **Responsive**: Ensure glass effects work across all screen sizes. Consider reducing blur intensity on mobile devices if performance is an issue.
+
+#### Component-Specific Rules
+- **Cards/Panels**: Apply glass effect with padding (16px-24px), rounded corners (16px-20px), and subtle shadows.
+- **Modals/Overlays**: Use stronger blur (20px-30px) and darker backgrounds (0.3-0.5 opacity) for better content separation.
+- **Input Fields**: Apply glass effect with clear focus states. Use `border` changes or glow effects on focus.
+- **Buttons**: Use glass effect with hover states that increase opacity or add glow. Maintain clear interactive feedback.
+
+#### Best Practices
+- **Contrast**: Ensure text remains readable. Use text shadows or semi-transparent backgrounds behind text if needed.
+- **Accessibility**: Maintain sufficient color contrast ratios (WCAG AA minimum). Test glass effects with various background colors.
+- **Gradients**: Use subtle gradients in backgrounds (`linear-gradient` or `radial-gradient`) to enhance the glass effect.
+- **Animation**: Apply smooth transitions (200-300ms) for hover, focus, and state changes. Use `transition: all 0.3s ease`.
+- **Overlay Pattern**: Consider adding a subtle noise texture or pattern overlay for authentic glass appearance.
+
+#### Example CSS Pattern
+```css
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+```
+
+#### Tailwind CSS (if using Tailwind)
+- Use utilities like: `backdrop-blur-md`, `bg-white/10`, `border border-white/20`, `rounded-2xl`, `shadow-xl`
+- Combine: `backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl shadow-xl`
