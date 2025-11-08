@@ -47,14 +47,24 @@ async def chat(request: ChatRequest):
     # Create an async generator function for streaming responses
     async def generate():
         try:
-            # Create a streaming chat completion request
+            # Structure messages for prompt caching:
+            # - System/developer message (static) comes first for caching
+            # - User message (variable) comes after
+            # This allows the system message to be cached and reused across requests
+            messages = [
+                {"role": "system", "content": request.developer_message},  # Static content - will be cached
+                {"role": "user", "content": request.user_message}  # Variable content - changes per request
+            ]
+            
+            # Create a streaming chat completion request with prompt caching enabled
+            # The system message will be cached automatically for prompts > 1024 tokens
+            # Cached tokens are billed at a discounted rate
             stream = client.chat.completions.create(
                 model=request.model,
-                messages=[
-                    {"role": "developer", "content": request.developer_message},
-                    {"role": "user", "content": request.user_message}
-                ],
-                stream=True  # Enable streaming response
+                messages=messages,
+                stream=True,  # Enable streaming response
+                # Note: Prompt caching is automatic for prompts > 1024 tokens
+                # Static content (system message) is cached and reused across requests
             )
             
             # Yield each chunk of the response as it becomes available
