@@ -159,7 +159,14 @@ While it is a bit counter-intuitive to set things up before jumping into vibe-co
 
      ![image](https://i.imgur.com/D1iKGCq.png)
 
-6. Once the build is completed - head to the provided link and try out your app!
+6. **IMPORTANT**: Set up your OpenAI API key in Vercel:
+   - Go to your project on Vercel → **Settings** → **Environment Variables**
+   - Add `OPENAI_API_KEY` with your API key value
+   - Select all environments (Production, Preview, Development)
+   - **Redeploy** your application for the changes to take effect
+   - See [VERCEL_SETUP.md](docs/VERCEL_SETUP.md) for detailed instructions
+
+7. Once the build is completed - head to the provided link and try out your app!
 
 > NOTE: Remember, if you run into any errors - ask Cursor to help you fix them!
 
