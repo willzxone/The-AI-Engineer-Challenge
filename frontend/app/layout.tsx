@@ -5,8 +5,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'AI Engineer Challenge - Glassmorphism Chat',
-  description: 'A beautiful glassmorphism chat interface powered by OpenAI',
+  title: 'Pakistani Cars Expert - AI Car Information Assistant',
+  description: 'Get comprehensive information about Pakistani cars - models, prices, specifications, comparisons, and more. Powered by OpenAI.',
 }
 
 export default function RootLayout({

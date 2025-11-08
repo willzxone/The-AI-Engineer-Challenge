@@ -12,10 +12,13 @@ export default function Home() {
         {/* Header with glassmorphism */}
         <header className="glass rounded-2xl p-6 mb-6 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
-            AI Engineer Challenge
+            🚗 Pakistani Cars Expert
           </h1>
           <p className="text-white/90 text-lg">
-            Beautiful Glassmorphism Chat Interface
+            Your AI Assistant for All Pakistani Car Information
+          </p>
+          <p className="text-white/70 text-sm mt-2">
+            Get detailed information about car models, prices, specifications, and more
           </p>
         </header>
 

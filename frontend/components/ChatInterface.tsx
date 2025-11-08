@@ -12,7 +12,18 @@ interface Message {
 export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([])
   const [isLoading, setIsLoading] = useState(false)
-  const [developerMessage, setDeveloperMessage] = useState('You are a helpful AI assistant.')
+  const [developerMessage, setDeveloperMessage] = useState(
+    'You are an expert assistant specializing in Pakistani cars. Provide comprehensive, accurate, and up-to-date information about cars available in Pakistan, including:\n' +
+    '- Car models, brands, and manufacturers available in Pakistan\n' +
+    '- Specifications (engine, transmission, fuel economy, features)\n' +
+    '- Pricing information in Pakistani Rupees (PKR)\n' +
+    '- Availability and dealership information\n' +
+    '- Comparisons between different models\n' +
+    '- Market trends and popular cars in Pakistan\n' +
+    '- Import policies and local manufacturing\n' +
+    '- Maintenance and ownership costs\n\n' +
+    'Always provide detailed, helpful information and cite sources when possible. If you don\'t know specific details, acknowledge it and provide general guidance.'
+  )
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const abortControllerRef = useRef<AbortController | null>(null)
 
@@ -116,14 +127,14 @@ export default function ChatInterface() {
       {/* Developer message input */}
       <div className="mb-4">
         <label className="block text-white/90 text-sm font-medium mb-2">
-          System/Developer Message
+          System Message (Expertise Configuration)
         </label>
-        <input
-          type="text"
+        <textarea
           value={developerMessage}
           onChange={(e) => setDeveloperMessage(e.target.value)}
-          placeholder="Enter system message..."
-          className="w-full glass rounded-xl px-4 py-2 text-white placeholder-white/50 border border-white/20 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-300 text-sm"
+          placeholder="Configure the AI's expertise and behavior..."
+          rows={4}
+          className="w-full glass rounded-xl px-4 py-2 text-white placeholder-white/50 border border-white/20 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-300 text-sm resize-none"
         />
       </div>
 
@@ -131,8 +142,17 @@ export default function ChatInterface() {
       <div className="flex-1 overflow-y-auto space-y-4 mb-4 pr-2">
         {messages.length === 0 ? (
           <div className="text-center text-white/70 py-12">
-            <p className="text-lg mb-2">Start a conversation!</p>
-            <p className="text-sm">Send a message to begin chatting with the AI</p>
+            <p className="text-lg mb-2">Ask about Pakistani Cars!</p>
+            <p className="text-sm mb-4">Get information about car models, prices, specifications, and more</p>
+            <div className="glass rounded-xl p-4 max-w-md mx-auto text-left text-sm space-y-2">
+              <p className="text-white/80 font-medium mb-2">Try asking:</p>
+              <ul className="space-y-1 text-white/70 list-disc list-inside">
+                <li>"What are the best cars under 5 million PKR?"</li>
+                <li>"Compare Toyota Corolla and Honda Civic"</li>
+                <li>"Tell me about Suzuki cars in Pakistan"</li>
+                <li>"What's the price of Honda City 2024?"</li>
+              </ul>
+            </div>
           </div>
         ) : (
           messages.map((message, index) => (

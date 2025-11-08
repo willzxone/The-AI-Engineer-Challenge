@@ -31,7 +31,7 @@ export default function ChatInput({ onSend, disabled }: ChatInputProps) {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="Type your message... (Press Enter to send, Shift+Enter for new line)"
+          placeholder="Ask about Pakistani cars... (Press Enter to send, Shift+Enter for new line)"
         disabled={disabled}
         rows={1}
         className="flex-1 glass rounded-xl px-4 py-3 text-white placeholder-white/50 border border-white/20 focus:border-white/40 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-300 resize-none disabled:opacity-50 disabled:cursor-not-allowed"
